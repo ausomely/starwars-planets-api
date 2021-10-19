@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 import './App.css';
+import { useState, useEffect } from 'react';
+import PlanetChart from './components/PlanetChart';
+
+const fetchData = (url) => {
+  const [data, setData] = useState(null);
+  // const [loading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    const response = await fetch(url);
+    const data = await response.json();
+    const [...planetsArray] = data.results;
+    setData(planetsArray);
+    // setLoading(false);
+  }, []);
+
+  // return { data, loading };
+  return { data };
+};
 
 function App() {
+  const { data }  = fetchData('https://swapi.dev/api/planets/'); 
+  console.log(data);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      Hello World
+      {/* {loading ? <div> ...loading </div> : <div>{data.name}</div>} */}
+      <PlanetChart />
     </div>
   );
 }
