@@ -1,9 +1,11 @@
 import React from 'react'
 
-const PlanetChart = () => {
+const PlanetChart = ({ data }) => {
     return (
         <div>
-            Test
+            {Object.values(data).map((planet, planetIdx) => (
+                <p key={planetIdx}>{planet.name} {planet.population}</p>
+            ))}
         </div>
     )
 }

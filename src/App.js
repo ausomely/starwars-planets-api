@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import PlanetChart from './components/PlanetChart';
 
 const fetchData = (url) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState('');
   // const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
@@ -25,9 +25,8 @@ function App() {
   console.log(data);
   return (
     <div className="App">
-      Hello World
       {/* {loading ? <div> ...loading </div> : <div>{data.name}</div>} */}
-      <PlanetChart />
+      <PlanetChart data={data}/>
     </div>
   );
 }
