@@ -13,14 +13,19 @@ const PlanetChart = () => {
             planetNames.push(planetObj.name);
             populations.push(parseInt(planetObj.population));
         }
-    console.log(planetNames, populations);
+        const kConverted = populations.map((value) => {
+            return (isNaN(value) ? value : value/1000)
+        });
+        console.log('K Converted array: ' , kConverted);
+
+    console.log('Planet Names: ', planetNames, 'Population before Conversion: ', populations);
     
         setChartData({
             labels: planetNames,
             datasets: [
                 {
                     label: 'Planet Population',
-                    data: populations,
+                    data: kConverted,
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.6)'
                     ],
@@ -48,9 +53,9 @@ const PlanetChart = () => {
         });
 
         console.log(sortedPlanets);
-          setData(sortedPlanets);
-          setLoading(false);
-          renderChart(sortedPlanets);
+        setData(sortedPlanets);
+        setLoading(false);
+        renderChart(sortedPlanets);
         }, []);
       
         return { data, loading };
@@ -61,11 +66,39 @@ const PlanetChart = () => {
     return (
         <div>
             {loading ? <div> ...loading </div> : Object.values(data).map((planet, planetIdx) => (
-                <p key={planetIdx}>{planet.name} {planet.population}</p>
+                <p key={planetIdx}>{planet.name} {planet.population/1000 + 'K'}</p>
             ))}
             <div>
                 <Bar 
                 data={chartData} 
+                options={{
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Star Wars Planet Populations',
+                            font : {
+                                size: 40,
+                            }
+                        }
+                    },
+                    // scales: {
+                    //     y: {
+                    //         // beginAtZero: true,
+                    //         // ticks: {
+                    //         //     callback: function(value) {
+                    //         //         const valueLegend = this.getLabelForValue(value);
+                    //         //         const valueReplace = valueLegend.replaceAll(',', '');
+                    //         //         const valueTrunc = valueReplace.substr(0,3);
+                    //         //         return valueTrunc;
+                    //         //     }
+                    //         }
+                    //     }
+                    // }
+                }} 
                 />
             </div>
         </div>
