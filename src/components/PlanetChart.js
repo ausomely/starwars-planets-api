@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
+import { render } from '@testing-library/react';
 import { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
-
 const PlanetChart = () => {
     const [chartData, setChartData] = useState({});
+
     const renderChart = (data) => {
         let planetNames = [];
         let populations = [];
@@ -13,10 +14,6 @@ const PlanetChart = () => {
             planetNames.push(planetObj.name);
             populations.push(parseInt(planetObj.population));
         }
-        const kConverted = populations.map((value) => {
-            return (isNaN(value) ? value : value/1000)
-        });
-        console.log('K Converted array: ' , kConverted);
 
     console.log('Planet Names: ', planetNames, 'Population before Conversion: ', populations);
     
@@ -24,80 +21,113 @@ const PlanetChart = () => {
             labels: planetNames,
             datasets: [
                 {
-                    label: 'Planet Population',
-                    data: kConverted,
+                    label: 'Population',
+                    data: populations,
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.6)'
                     ],
-                    borderWidth: 4
+                    borderWidth: 2,
                 }
             ]
         });
     };
-  
-    const fetchData = (url) => {
+
+    const fetchPlanetData = () => {
         const [data, setData] = useState([]);
         const [loading, setLoading] = useState(true);
-        
+        let planetData = [];
 
         useEffect(async () => {
-          const response = await fetch(url);
-          const data = await response.json();
-          const [...items] = data.results;
+            let currentPage = 0;
+            let morePages = true;
+            while (morePages) {
+                currentPage++;
+                const response = await fetch(`https://swapi.dev/api/planets/?page=${currentPage}`);
+                const data = await response.json();
+                planetData.push(data.results);
+                if (data.next === null) morePages = false;
+            }
 
-          // Alphabetically sort planets by name
-          const sortedPlanets = items.sort((a, b) => {
-            if (a.name < b.name) return -1;
-            if (a.name > b.name) return 1;
-            return 0;
-        });
-
-        console.log(sortedPlanets);
-        setData(sortedPlanets);
-        setLoading(false);
-        renderChart(sortedPlanets);
+            const sortedPlanets = planetData.flat().sort((a, b) => {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+            });
+            
+            setData(sortedPlanets);
+            setLoading(false);
+            renderChart(sortedPlanets);
         }, []);
-      
-        return { data, loading };
-    };
 
-    const {data, loading} = fetchData('https://swapi.dev/api/planets/');
+        return {data, loading};
+    }
+
+    const {data, loading} = fetchPlanetData();
 
     return (
         <div>
             {loading ? <div> ...loading </div> : Object.values(data).map((planet, planetIdx) => (
-                <p key={planetIdx}>{planet.name} {planet.population/1000 + 'K'}</p>
-            ))}
+                <p key={planetIdx}>{planet.name} {planet.population}</p>
+                ))
+            }
             <div>
                 <Bar 
-                data={chartData} 
+                data={chartData}
                 options={{
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'right',
+                            display: false,
+                            position: 'bottom',
                         },
                         title: {
                             display: true,
-                            text: 'Star Wars Planet Populations',
+                            text: 'Planet Population in Star Wars',
                             font : {
                                 size: 40,
                             }
+                        },
+                        subtitle: {
+                            display: true,
+                            text: 'Source: Star Wars API, Wookieepedia',
+                            position: 'top'
                         }
                     },
-                    // scales: {
-                    //     y: {
-                    //         // beginAtZero: true,
-                    //         // ticks: {
-                    //         //     callback: function(value) {
-                    //         //         const valueLegend = this.getLabelForValue(value);
-                    //         //         const valueReplace = valueLegend.replaceAll(',', '');
-                    //         //         const valueTrunc = valueReplace.substr(0,3);
-                    //         //         return valueTrunc;
-                    //         //     }
-                    //         }
-                    //     }
-                    // }
+                    scales: {
+                        y: {
+                            type: 'logarithmic',
+                            min: 100,
+                            max: 1000000000000,
+                            ticks: {
+                                callback: function(value, idx, values) {
+                                    if (value === 1000000000000) return '1T';
+                                    if (value === 100000000000) return '100B';
+                                    if (value === 10000000000) return '10B';
+                                    if (value === 1000000000) return '1B';
+                                    if (value === 100000000) return '100M';
+                                    if (value === 10000000) return '10M';
+                                    if (value === 1000000) return '1M';
+                                    if (value === 100000) return '100K';
+                                    if (value === 10000) return '10K';
+                                    if (value === 1000) return '1K';
+                                    if (value === 100) return '0';
+                                    return null;
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Planet Name'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
                 }} 
                 />
             </div>
