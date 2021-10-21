@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { render } from '@testing-library/react';
 import { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
@@ -24,9 +23,9 @@ const PlanetChart = () => {
                     label: 'Population',
                     data: populations,
                     backgroundColor: [
-                        'rgba(75, 192, 192, 0.6)'
+                        'rgba(75, 119, 190, 1)'
                     ],
-                    borderWidth: 2,
+                    // borderWidth: 2,
                 }
             ]
         });
@@ -49,8 +48,8 @@ const PlanetChart = () => {
             }
 
             const sortedPlanets = planetData.flat().sort((a, b) => {
-                if (a.name < b.name) return -1;
-                if (a.name > b.name) return 1;
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                 return 0;
             });
             
@@ -61,16 +60,17 @@ const PlanetChart = () => {
 
         return {data, loading};
     }
-
+    // Pass Data to use in table later
     const {data, loading} = fetchPlanetData();
+    console.log(data);
 
     return (
         <div>
-            {loading ? <div> ...loading </div> : Object.values(data).map((planet, planetIdx) => (
+            {/* {loading ? <div> ...loading </div> : Object.values(data).map((planet, planetIdx) => (
                 <p key={planetIdx}>{planet.name} {planet.population}</p>
                 ))
-            }
-            <div>
+            } */}
+            <div> {loading ? <div>...loading </div> :
                 <Bar 
                 data={chartData}
                 options={{
@@ -115,7 +115,7 @@ const PlanetChart = () => {
                                 }
                             },
                             grid: {
-                                display: false
+                                display: true
                             }
                         },
                         x: {
@@ -129,7 +129,7 @@ const PlanetChart = () => {
                         }
                     }
                 }} 
-                />
+                />}
             </div>
         </div>
     )
