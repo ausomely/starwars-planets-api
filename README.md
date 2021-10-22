@@ -4,8 +4,9 @@
 This repository contains the development of a React web application designed to display data about the planets in the Star Wars Universe. 
 <br></br>
 Please Note: This application has not yet been deployed and can only run via local machine at http://localhost:3000 (default). 
+
 <div align="center">
-    <img src="./assets/StarWars-main.gif">
+    <img src="./src/assets/StarWars-main.gif">
 </div>
 
 ## Setup:
