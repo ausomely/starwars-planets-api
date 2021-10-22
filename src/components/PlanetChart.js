@@ -2,16 +2,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Bar } from 'react-chartjs-2';
 
-const PlanetChart = ({ loading, chartData }) => {
-
-
+const PlanetChart = ({ chartData, loading }) => {
     return (
         <div>
-            {/* {loading ? <div> ...loading </div> : Object.values(data).map((planet, planetIdx) => (
-                <p key={planetIdx}>{planet.name} {planet.population}</p>
-                ))
-            } */}
-            <div> {loading ? <div>...loading </div> :
+            <div className='container ps-5 pb-5 d-flex align-items-center'> {loading ? <></> :
                 <Bar 
                 data={chartData}
                 options={{
@@ -25,7 +19,7 @@ const PlanetChart = ({ loading, chartData }) => {
                             display: true,
                             text: 'Planet Population in Star Wars',
                             font : {
-                                size: 40,
+                                size: 35,
                             }
                         },
                         subtitle: {
@@ -66,6 +60,9 @@ const PlanetChart = ({ loading, chartData }) => {
                             },
                             grid: {
                                 display: false
+                            },
+                            ticks: {
+                                autoSkip: false
                             }
                         }
                     }
