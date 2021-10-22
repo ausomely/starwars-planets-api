@@ -15,23 +15,23 @@ function App() {
         for (const planetObj of Object.values(data)) {
             planetNames.push(planetObj.name);
             populations.push(parseInt(planetObj.population));
-    }
+        }
+        
+        console.log('Planet Names: ', planetNames, 'Populations: ', populations);
 
-    console.log('Planet Names: ', planetNames, 'Populations: ', populations);
-
-    setChartData({
-        labels: planetNames,
-        datasets: [
-            {
-                label: 'Population',
-                data: populations,
-                backgroundColor: [
-                    'rgba(75, 119, 190, 1)'
-                ],
-            }
-        ]
-    });
-};
+        setChartData({
+            labels: planetNames,
+            datasets: [
+                {
+                    label: 'Population',
+                    data: populations,
+                    backgroundColor: [
+                        'rgba(75, 119, 190, 1)'
+                    ],
+                }
+            ]
+        });
+    };
 
 const fetchPlanetData = () => {
     const [data, setData] = useState([]);
