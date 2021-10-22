@@ -4,7 +4,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import PlanetChart from './components/PlanetChart';
 import PlanetTable from './components/PlanetTable';
-import backgroundVideo2 from './assets/Death Star - 33050.mp4';
+import backgroundVideo from './assets/Death Star - 33050.mp4';
 
 function App() {
     const [chartData, setChartData] = useState({});
@@ -64,11 +64,12 @@ const fetchPlanetData = () => {
 }
 // Pass Data to use in table later
 const {data, loading} = fetchPlanetData();
+console.log(data);
 
 return (
     <div className='container-fluid p-0 d-flex flex-row'>
         <video autoPlay loop muted id='video'>
-            <source src={backgroundVideo2} type='video/mp4'/>
+            <source src={backgroundVideo} type='video/mp4'/>
         </video>
         <PlanetChart chartData={chartData} loading={loading}  />
         <PlanetTable data={data} loading={loading}/>
