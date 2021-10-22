@@ -27,7 +27,7 @@ const PlanetTable = ({ data, loading }) => {
         }
       });
     return (
-        <div className='container ps-5 d-flex flex-column justify-content-center'>
+        <div className='container ps-3 d-flex flex-column justify-content-center'>
             {loading ? <></> : <BootstrapTable id='table' keyField='name' data={planets} columns={columns} pagination={pagination} hover/>}
         </div>
     )

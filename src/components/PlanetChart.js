@@ -5,7 +5,7 @@ import { Bar } from 'react-chartjs-2';
 const PlanetChart = ({ chartData, loading }) => {
     return (
         <div>
-            <div className='container ps-5 pb-5 d-flex align-items-center'> {loading ? <></> :
+            <div className='container ps-3 pb-5 d-flex align-items-center'> {loading ? <></> :
                 <Bar 
                 data={chartData}
                 options={{
