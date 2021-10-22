@@ -47,6 +47,12 @@ I was unable to implement the functionality of allowing the user to select from 
 ### PlanetTable.js
 The PlanetTable component uses react-bootstrap-table-next and react-bootstrap-table2-paginator to render a table that records the attributes (Name, Population, Rotation Period, Orbital Period, Diameter, Climate, Surface Water) of each planet. react-bootstrap-table2-paginator allows for table pagination so the table displays 10 planets at a time and can be cycled through by clicking the interactive buttons found directly under the table. 
 
+## User Interface
+To customize and configure the user interface of the application, I used bootstrap 5, Chart js configuration, and react-bootstrap-table configuration. There was also some light CSS styling to add background colors and transparency to the graph and table. 
+
+The overall theme of the UI showcases a video background of the Death Star hologram. Though the timeline of the Death Star does not directly connect or is consistent with all of these planets at the time the data was created by Wookieepedia, I wanted to show that the Death Star had an impact to the Star Wars Universe in some matter. This is a fun and inticing UI that allows the user to relate to planets of Star Wars and how the so called 'planet destroyers' affect these planets. I intended to make this creative and fun for the user. The transparency of the charts enables users to view this hologram without distracting them from the data that is displayed.  
+
 ## Limitations 
+React is still a new technology to me that I am continuing to learn and develop/solidify my skills to better develop my applications. All of the sources to create this application were purely from my knowledge of academia and self teaching through reading documentation and watching videos regarding React.  
 
 The application was developed in the standard 1920x1080p viewport and was not developed for other screen size resolutions, thus it is best to view this application on a standard 1920x1080p screen. 
